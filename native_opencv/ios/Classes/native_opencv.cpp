@@ -1,3 +1,14 @@
+// CPP program to Stitch
+// input images (panorama) using OpenCV
+#include <iostream>
+#include <fstream>
+
+// Include header files from OpenCV directory
+// required to stitch images.
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/stitching.hpp"
+
 #include <opencv2/opencv.hpp>
 #include <chrono>
 
@@ -23,6 +34,8 @@
 
 using namespace cv;
 using namespace std;
+
+Stitcher::Mode mode = Stitcher::PANORAMA;
 
 long long int get_now() {
     return chrono::duration_cast<std::chrono::milliseconds>(
@@ -57,22 +70,59 @@ extern "C" {
     FUNCTION_ATTRIBUTE
     void process_image(char* inputImagePath, char* outputImagePath) {
         long long start = get_now();
-        
+
         Mat input = imread(inputImagePath, IMREAD_GRAYSCALE);
         Mat threshed, withContours;
 
         vector<vector<Point>> contours;
         vector<Vec4i> hierarchy;
-        
+
         adaptiveThreshold(input, threshed, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 77, 6);
         findContours(threshed, contours, hierarchy, RETR_TREE, CHAIN_APPROX_TC89_L1);
-        
+
         cvtColor(threshed, withContours, COLOR_GRAY2BGR);
         drawContours(withContours, contours, -1, Scalar(0, 255, 0), 4);
-        
+
         imwrite(outputImagePath, withContours);
-        
+
         int evalInMillis = static_cast<int>(get_now() - start);
         platform_log("Processing done in %dms\n", evalInMillis);
+    }
+
+    FUNCTION_ATTRIBUTE
+    void stitch_image(char** inputImagePath, int size, char* outputImagePath) {
+        vector<Mat> imgs;
+
+        for (int i = 0; i < size; i++)
+        {
+            Mat img = imread(inputImagePath[i]);
+            imgs.push_back(img);
+        }
+
+        // Define object to store the stitched image
+        Mat pano;
+
+        // Create a Stitcher class object with mode panoroma
+        Ptr<Stitcher> stitcher = Stitcher::create(mode);
+
+        // Command to stitch all the images present in the image array
+        Stitcher::Status status = stitcher->stitch(imgs, pano);
+
+        if (status != Stitcher::OK)
+        {
+            // Check if images could not be stiched
+            // status is OK if images are stiched successfully
+            platform_log("Can't stitch images\n");
+            return;
+        }
+
+        // Store a new image stiched from the given
+        //set of images as "result.jpg"
+        imwrite(outputImagePath, pano);
+
+        // Show the result
+        // imshow("Result", pano);
+
+//        waitKey(0);
     }
 }

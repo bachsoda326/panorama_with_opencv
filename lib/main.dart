@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_opencv_example/native_opencv.dart';
+import 'package:flutter_opencv_example/viewer_360.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -75,6 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<List<String>?> pickImages() async {
+    if (Platform.isIOS || Platform.isAndroid) {
+      return _picker
+          .pickMultiImage(imageQuality: 100)
+          .then((v) => v?.map((e) => e.path).toList());
+    } else {
+      return FilePicker.platform
+          .pickFiles(
+            dialogTitle: 'Pick an image',
+            type: FileType.image,
+            allowMultiple: false,
+          )
+          .then((v) => [v?.files.first.path ?? '']);
+    }
+  }
+
   Future<void> takeImageAndProcess() async {
     final imagePath = await pickAnImage();
 
@@ -94,6 +111,53 @@ class _MyHomePageState extends State<MyHomePage> {
     Isolate.spawn<ProcessImageArguments>(
       processImage,
       args,
+      onError: port.sendPort,
+      onExit: port.sendPort,
+    );
+
+    // Making a variable to store a subscription in
+    late StreamSubscription sub;
+
+    // Listening for messages on port
+    sub = port.listen((_) async {
+      // Cancel a subscription after message received called
+      await sub.cancel();
+
+      setState(() {
+        _isProcessed = true;
+        _isWorking = false;
+      });
+    });
+  }
+
+  Future<void> takeImageAndStitch() async {
+    final paths = await pickImages();
+
+    if (paths == null) {
+      return;
+    }
+
+    final imagePaths = paths;
+
+    setState(() {
+      _isWorking = true;
+    });
+
+    // Creating a port for communication with isolate and arguments for entry point
+    final port = ReceivePort();
+    final stitchArgs =
+        StitchImageArguments(imagePaths, imagePaths.length, tempPath);
+
+    // Spawning an isolate
+    /*Isolate.spawn<ProcessImageArguments>(
+      processImage,
+      args,
+      onError: port.sendPort,
+      onExit: port.sendPort,
+    );*/
+    Isolate.spawn<StitchImageArguments>(
+      stitchImage,
+      stitchArgs,
       onError: port.sendPort,
       onExit: port.sendPort,
     );
@@ -133,13 +197,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 Column(
                   children: [
-                    ElevatedButton(
+                    /*ElevatedButton(
                       child: Text('Show version'),
                       onPressed: showVersion,
                     ),
                     ElevatedButton(
                       child: Text('Process photo'),
                       onPressed: takeImageAndProcess,
+                    ),*/
+                    ElevatedButton(
+                      child: Text('Stitch photo'),
+                      onPressed: takeImageAndStitch,
+                    ),
+                    ElevatedButton(
+                      child: Text('360 viewer'),
+                      onPressed: () {
+                        if (_isProcessed) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => Viewer360(tempPath: tempPath)),
+                          );
+                        }
+                      },
                     ),
                   ],
                 )
