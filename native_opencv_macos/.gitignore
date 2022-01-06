@@ -1,0 +1,10 @@
+.DS_Store
+.dart_tool/
+
+.packages
+.pub/
+
+build/
+
+/macos/opencv2.xcframework
+/macos/Classes/native_opencv.cpp
