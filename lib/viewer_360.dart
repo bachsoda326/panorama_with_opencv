@@ -77,8 +77,8 @@ class _Viewer360State extends State<Viewer360> {
     switch (_panoId % panoImages.length) {
       case 0:
         panorama = Panorama(
-          animSpeed: 1.0,
-          sensorControl: SensorControl.Orientation,
+          // animSpeed: 1.0,
+          // sensorControl: SensorControl.Orientation,
           onViewChanged: onViewChanged,
           onTap: (longitude, latitude, tilt) =>
               print('onTap: $longitude, $latitude, $tilt'),

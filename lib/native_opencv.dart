@@ -9,7 +9,7 @@ typedef _CProcessImageFunc = ffi.Void Function(
   ffi.Pointer<Utf8>,
 );
 typedef _CStitchImageFunc = ffi.Void Function(
-  ffi.Pointer<ffi.Pointer<Utf8>>,
+  ffi.Pointer<Utf8>,
   ffi.Int32,
   ffi.Pointer<Utf8>,
 );
@@ -21,7 +21,7 @@ typedef _ProcessImageFunc = void Function(
   ffi.Pointer<Utf8>,
 );
 typedef _StitchImageFunc = void Function(
-  ffi.Pointer<ffi.Pointer<Utf8>>,
+  ffi.Pointer<Utf8>,
   int,
   ffi.Pointer<Utf8>,
 );
@@ -58,19 +58,23 @@ void processImage(ProcessImageArguments args) {
 }
 
 void stitchImage(StitchImageArguments args) {
-  final ffi.Pointer<ffi.Pointer<Utf8>> pointer =
+  /*final ffi.Pointer<ffi.Pointer<Utf8>> pointer =
       strListToPointer(args.inputPaths);
   print('Get paths success');
 
   try {
-    _stitchImage(pointer, args.size, args.outputPath.toNativeUtf8());
+    _stitchImage(args.inputPaths.toString().toNativeUtf8(), args.size,
+        args.outputPath.toNativeUtf8());
 
     malloc.free(pointer);
     print('_stitchImage success');
   } catch (_) {
     malloc.free(pointer);
     print('_stitchImage failed');
-  }
+  }*/
+
+  _stitchImage(args.inputPaths.toString().toNativeUtf8(), args.size,
+      args.outputPath.toNativeUtf8());
 }
 
 /// Don't forget to run malloc.free with result!

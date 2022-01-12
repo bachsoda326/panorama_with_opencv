@@ -67,6 +67,34 @@ extern "C" {
         return CV_VERSION;
     }
 
+    struct tokens: ctype<char>
+    {
+        tokens(): std::ctype<char>(get_table()) {}
+
+        static std::ctype_base::mask const* get_table()
+        {
+            typedef std::ctype<char> cctype;
+            static const cctype::mask *const_rc= cctype::classic_table();
+
+            static cctype::mask rc[cctype::table_size];
+            std::memcpy(rc, const_rc, cctype::table_size * sizeof(cctype::mask));
+
+            rc[','] =  ctype_base::space;
+            rc[' '] =  ctype_base::space;
+            return &rc[0];
+        }
+    };
+
+//    vector<string> getpathlist(string path_string){
+//        string sub_string = path_string.substr(1,path_string.length()-2);
+//        stringstream ss(sub_string);
+//        ss.imbue( locale( locale(), new tokens()));
+//        istream_iterator<std::string> begin(ss);
+//        istream_iterator<std::string> end;
+//        vector<std::string> pathlist(begin, end);
+//        return pathlist;
+//    }
+
     FUNCTION_ATTRIBUTE
     void process_image(char* inputImagePath, char* outputImagePath) {
         long long start = get_now();
@@ -90,12 +118,25 @@ extern "C" {
     }
 
     FUNCTION_ATTRIBUTE
-    void stitch_image(char** inputImagePath, int size, char* outputImagePath) {
+    void stitch_image(char* inputImagePath, int size, char* outputImagePath) {
+        string input_path_string =  inputImagePath;
+                
+        // Get path list.
+        string sub_string = input_path_string.substr(1,input_path_string.length()-2);
+        stringstream ss(sub_string);
+        ss.imbue( locale( locale(), new tokens()));
+        istream_iterator<std::string> begin(ss);
+        istream_iterator<std::string> end;
+        vector<std::string> image_vector_list(begin, end);
+        
+//        vector<string> image_vector_list = getpathlist(input_path_string);
+        
         vector<Mat> imgs;
 
-        for (int i = 0; i < size; i++)
+        for(auto k = image_vector_list.begin();k != image_vector_list.end(); ++k)
         {
-            Mat img = imread(inputImagePath[i]);
+            String  path = *k;
+            Mat img = imread(path);
             imgs.push_back(img);
         }
 

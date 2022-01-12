@@ -25,11 +25,8 @@
     <list default="true" id="9903b66a-8f72-40ea-9ba4-8efe75620654" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/native_opencv.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/native_opencv.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/viewer_360.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/viewer_360.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/native_opencv/ios/Classes/native_opencv.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/native_opencv/ios/Classes/native_opencv.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +78,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641453845770</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- Stitch image, but has heap memory error.">
+      <created>1641455285669</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1641455285669</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -97,25 +101,30 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- Copy native opencv project." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Copy native opencv project." />
+    <MESSAGE value="- Stitch image, but has heap memory error." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Stitch image, but has heap memory error." />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1200" height="263" key="GridCell.Tab.0.bottom" timestamp="1641455084383">
+    <state width="558" height="466" key="DebuggerActiveHint" timestamp="1641457598865">
       <screen x="0" y="25" width="1680" height="980" />
     </state>
-    <state width="1200" height="263" key="GridCell.Tab.0.bottom/0.25.1680.980@0.25.1680.980" timestamp="1641455084383" />
-    <state width="1200" height="263" key="GridCell.Tab.0.center" timestamp="1641455084381">
+    <state width="558" height="466" key="DebuggerActiveHint/0.25.1680.980@0.25.1680.980" timestamp="1641457598865" />
+    <state width="1200" height="234" key="GridCell.Tab.0.bottom" timestamp="1641973676828">
       <screen x="0" y="25" width="1680" height="980" />
     </state>
-    <state width="1200" height="263" key="GridCell.Tab.0.center/0.25.1680.980@0.25.1680.980" timestamp="1641455084381" />
-    <state width="1200" height="263" key="GridCell.Tab.0.left" timestamp="1641455084381">
+    <state width="1200" height="234" key="GridCell.Tab.0.bottom/0.25.1680.980@0.25.1680.980" timestamp="1641973676828" />
+    <state width="1200" height="234" key="GridCell.Tab.0.center" timestamp="1641973676827">
       <screen x="0" y="25" width="1680" height="980" />
     </state>
-    <state width="1200" height="263" key="GridCell.Tab.0.left/0.25.1680.980@0.25.1680.980" timestamp="1641455084381" />
-    <state width="1200" height="263" key="GridCell.Tab.0.right" timestamp="1641455084382">
+    <state width="1200" height="234" key="GridCell.Tab.0.center/0.25.1680.980@0.25.1680.980" timestamp="1641973676827" />
+    <state width="1200" height="234" key="GridCell.Tab.0.left" timestamp="1641973676826">
       <screen x="0" y="25" width="1680" height="980" />
     </state>
-    <state width="1200" height="263" key="GridCell.Tab.0.right/0.25.1680.980@0.25.1680.980" timestamp="1641455084382" />
+    <state width="1200" height="234" key="GridCell.Tab.0.left/0.25.1680.980@0.25.1680.980" timestamp="1641973676826" />
+    <state width="1200" height="234" key="GridCell.Tab.0.right" timestamp="1641973676828">
+      <screen x="0" y="25" width="1680" height="980" />
+    </state>
+    <state width="1200" height="234" key="GridCell.Tab.0.right/0.25.1680.980@0.25.1680.980" timestamp="1641973676828" />
     <state x="68" y="151" key="SettingsEditor" timestamp="1641453201236">
       <screen x="0" y="25" width="1680" height="980" />
     </state>
@@ -124,5 +133,16 @@
       <screen x="0" y="25" width="1680" height="980" />
     </state>
     <state x="299" y="284" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/0.25.1680.980@0.25.1680.980" timestamp="1641454597341" />
+    <state x="181" y="279" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1641456925420">
+      <screen x="0" y="25" width="1680" height="980" />
+    </state>
+    <state x="181" y="279" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.25.1680.980@0.25.1680.980" timestamp="1641456925420" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint suspend="THREAD" type="dart-exception" />
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
